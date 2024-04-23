@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:weather_app_project/models/weather_model.dart';
 
 class CurrentCityScreen extends StatelessWidget {
-  const CurrentCityScreen({Key? key}) : super(key: key);
+  const CurrentCityScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

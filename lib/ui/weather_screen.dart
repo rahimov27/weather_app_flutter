@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app_project/core/app_fonts.dart';
 import 'package:weather_app_project/resources/resources.dart';
+import 'package:weather_app_project/ui/cities_screen.dart';
 import 'package:weather_app_project/ui/common_widgets/my_container.dart';
 
 class WeatherScreen extends StatefulWidget {
@@ -13,14 +15,6 @@ class WeatherScreen extends StatefulWidget {
 class _WeatherScreenState extends State<WeatherScreen> {
   int _selectedIndex = 2;
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text('Home Page'),
-    Text('Search Page'),
-    Text('Favorites Page'),
-    Text('Settings Page'),
-    Text('Profile Page'),
-  ];
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -29,11 +23,18 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+
+    // Format the current time as "hour:minute"
+    String formattedTime = DateFormat.Hm().format(now);
+
     return Scaffold(
       backgroundColor: const Color(0xff191919),
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: const Icon(
             Icons.menu,
             size: 24,
@@ -47,7 +48,14 @@ class _WeatherScreenState extends State<WeatherScreen> {
         backgroundColor: const Color(0xff292929),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CitiesScreen(),
+                ),
+              );
+            },
             icon: const Icon(
               Icons.search,
               size: 24,
@@ -66,7 +74,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 style: AppFonts.s32bold.copyWith(color: Colors.white),
               ),
               Text(
-                "17:51",
+                "$formattedTime",
                 style: AppFonts.s16regular.copyWith(color: Colors.white),
               ),
               const Stack(
@@ -106,13 +114,29 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     image: Images.sunny,
                   ),
                 ],
+              ),
+              const SizedBox(height: 38),
+              const SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    MyWidget(),
+                    MyWidget(),
+                    MyWidget(),
+                    MyWidget(),
+                    MyWidget(),
+                    MyWidget(),
+                    MyWidget(),
+                  ],
+                ),
               )
             ],
           ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xff262626),
+        backgroundColor: const Color(0xff262626),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             backgroundColor: Color(0xff262626),
@@ -144,6 +168,38 @@ class _WeatherScreenState extends State<WeatherScreen> {
         unselectedIconTheme: const IconThemeData(color: Color(0xffC6C6C6)),
         selectedItemColor: const Color(0xff6929C4),
         onTap: _onItemTapped,
+      ),
+    );
+  }
+}
+
+class MyWidget extends StatelessWidget {
+  const MyWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Container(
+        height: 115,
+        width: 50,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50), color: Colors.grey),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Row'),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 7),
+              child: Image(
+                image: AssetImage(Images.hazzy),
+              ),
+            ),
+            Text("26")
+          ],
+        ),
       ),
     );
   }
