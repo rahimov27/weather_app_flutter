@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:weather_app_project/ui/current_city_screen.dart';
+import 'package:weather_app_project/core/app_fonts.dart';
+import 'package:weather_app_project/ui/weather_screen.dart';
 
 import '../resources/resources.dart';
 
@@ -10,10 +10,10 @@ class SecondScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff292929),
+      backgroundColor: const Color(0xffFFFFFF),
       appBar: AppBar(
-        title: const Text("Second screen"),
-        centerTitle: true,
+        backgroundColor: const Color(0xffFFFFFF),
+        elevation: 0,
       ),
       body: Center(
         child: Column(
@@ -21,33 +21,22 @@ class SecondScreen extends StatelessWidget {
             const SizedBox(height: 113),
             const Image(image: AssetImage(Images.sun)),
             const SizedBox(height: 51),
-            // Container(
-            //   width: 319,
-            //   height: 319,
-            //   // color: Colors.white,
-            //   decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(1000)),
-            // )
-            const SizedBox(
-              width: 178,
+            SizedBox(
+              width: 274,
               child: Text(
                 textAlign: TextAlign.center,
-                "Choose your City",
-                style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                "Detailed Hourly Forecast",
+                style: AppFonts.s32bold.copyWith(color: Colors.white),
               ),
             ),
             const SizedBox(height: 30),
-            const SizedBox(
-              width: 155,
+            SizedBox(
+              width: 187,
               child: Text(
                 textAlign: TextAlign.center,
                 "Get in - depth weather information",
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    color: Color(0xffA5A5A5)),
+                style: AppFonts.s16regular
+                    .copyWith(color: const Color(0xff545454)),
               ),
             ),
             const SizedBox(height: 68),
@@ -56,14 +45,14 @@ class SecondScreen extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const CurrentCityScreen()));
+                        builder: (context) => const WeatherScreen()));
               },
               child: const CircleAvatar(
                 radius: 31.5,
                 backgroundColor: Color(0xff333333),
                 child: Image(image: AssetImage(Images.locationPoint)),
               ),
-            )
+            ),          
           ],
         ),
       ),

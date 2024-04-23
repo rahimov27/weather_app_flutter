@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_app_project/ui/first_screen.dart';
 
-void main(){
+void main() {
   runApp(const MyApp());
 }
 
@@ -14,7 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        textTheme: GoogleFonts.reemKufiTextTheme(), // Use Google Fonts text theme
+        textTheme:
+            GoogleFonts.montserratTextTheme(), // Use Google Fonts text theme
       ),
       home: const FirstScreen(),
     );

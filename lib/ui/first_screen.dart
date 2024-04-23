@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app_project/core/app_fonts.dart';
 import 'package:weather_app_project/ui/second_screen.dart';
@@ -11,10 +10,10 @@ class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Color(0xff292929),
+      backgroundColor: const Color(0xff292929),
       appBar: AppBar(
-        title: const Text("First screen"),
-        centerTitle: true,
+        backgroundColor: const Color(0xff292929),
+        elevation: 0,
       ),
       body: Center(
         child: Column(
@@ -22,43 +21,36 @@ class FirstScreen extends StatelessWidget {
             const SizedBox(height: 113),
             const Image(image: AssetImage(Images.nightMoon)),
             const SizedBox(height: 51),
-            // Container(
-            //   width: 319,
-            //   height: 319,
-            //   // color: Colors.white,
-            //   decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(1000)),
-            // )
-            const SizedBox(
-              width: 178,
+            SizedBox(
+              width: 274,
               child: Text(
                 textAlign: TextAlign.center,
                 "Detailed Hourly Forecast",
-                style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff000000)),
+                style: AppFonts.s32bold.copyWith(color: Colors.white),
               ),
             ),
             const SizedBox(height: 30),
-            const SizedBox(
-              width: 155,
+            SizedBox(
+              width: 187,
               child: Text(
                 textAlign: TextAlign.center,
                 "Get in - depth weather information",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                style: AppFonts.s16regular
+                    .copyWith(color: const Color(0xff545454)),
               ),
             ),
             const SizedBox(height: 68),
             InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SecondScreen()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SecondScreen()));
               },
               child: const CircleAvatar(
                 radius: 31.5,
                 backgroundColor: Color(0xff333333),
                 child: Image(image: AssetImage(Images.arrowRight)),
               ),
-            )
+            ),
           ],
         ),
       ),
