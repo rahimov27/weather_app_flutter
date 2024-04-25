@@ -4,6 +4,7 @@ import 'package:weather_app_project/core/app_fonts.dart';
 import 'package:weather_app_project/resources/resources.dart';
 import 'package:weather_app_project/ui/cities_screen.dart';
 import 'package:weather_app_project/ui/common_widgets/my_container.dart';
+import 'package:weather_app_project/ui/common_widgets/my_row_widget.dart';
 
 class WeatherScreen extends StatefulWidget {
   const WeatherScreen({super.key});
@@ -74,7 +75,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 style: AppFonts.s32bold.copyWith(color: Colors.white),
               ),
               Text(
-                "$formattedTime",
+                formattedTime,
                 style: AppFonts.s16regular.copyWith(color: Colors.white),
               ),
               const Stack(
@@ -121,13 +122,41 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    MyWidget(),
-                    MyWidget(),
-                    MyWidget(),
-                    MyWidget(),
-                    MyWidget(),
-                    MyWidget(),
-                    MyWidget(),
+                    MyRowWidget(
+                      temp: "26",
+                      typeOfWeather: "Row",
+                      image: Images.hazzy,
+                    ),
+                    MyRowWidget(
+                      temp: "22",
+                      typeOfWeather: "Row",
+                      image: Images.hazzy,
+                    ),
+                    MyRowWidget(
+                      temp: "1",
+                      typeOfWeather: "Row",
+                      image: Images.hazzy,
+                    ),
+                    MyRowWidget(
+                      temp: "15",
+                      typeOfWeather: "Row",
+                      image: Images.hazzy,
+                    ),
+                    MyRowWidget(
+                      temp: "16",
+                      typeOfWeather: "Row",
+                      image: Images.hazzy,
+                    ),
+                    MyRowWidget(
+                      temp: "22",
+                      typeOfWeather: "Row",
+                      image: Images.hazzy,
+                    ),
+                    MyRowWidget(
+                      temp: "32",
+                      typeOfWeather: "Row",
+                      image: Images.hazzy,
+                    ),
                   ],
                 ),
               )
@@ -168,38 +197,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
         unselectedIconTheme: const IconThemeData(color: Color(0xffC6C6C6)),
         selectedItemColor: const Color(0xff6929C4),
         onTap: _onItemTapped,
-      ),
-    );
-  }
-}
-
-class MyWidget extends StatelessWidget {
-  const MyWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Container(
-        height: 115,
-        width: 50,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50), color: Colors.grey),
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Row'),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 7),
-              child: Image(
-                image: AssetImage(Images.hazzy),
-              ),
-            ),
-            Text("26")
-          ],
-        ),
       ),
     );
   }

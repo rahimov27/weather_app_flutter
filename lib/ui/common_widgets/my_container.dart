@@ -18,7 +18,10 @@ class MyContainer extends StatelessWidget {
       padding: const EdgeInsets.only(right: 15.0),
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: Colors.green),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.white),
+          color: const Color(0xff262626),
+        ),
         width: 110,
         height: 64,
         child: Column(
@@ -27,16 +30,16 @@ class MyContainer extends StatelessWidget {
               padding: const EdgeInsets.only(top: 10),
               child: Text(
                 typeWeather,
-                style: AppFonts.s12regular,
+                style: AppFonts.s12regular.copyWith(color: Colors.white),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Row(
                 children: [
                   Text(
                     temp,
-                    style: AppFonts.s16regular,
+                    style: AppFonts.s16regular.copyWith(color: Colors.white),
                   ),
                   const Spacer(),
                   Image(image: AssetImage(image))
