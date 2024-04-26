@@ -61,8 +61,7 @@ class FirstScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const SecondScreen()),
+                      MaterialPageRoute(builder: (context) => SecondScreen()),
                     );
                   },
                   child: const CircleAvatar(

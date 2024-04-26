@@ -22,7 +22,7 @@ class MyContainer extends StatelessWidget {
           border: Border.all(color: Colors.white),
           color: const Color(0xff262626),
         ),
-        width: 110,
+        width: 115,
         height: 64,
         child: Column(
           children: [

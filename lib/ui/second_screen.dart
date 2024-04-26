@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app_project/core/app_fonts.dart';
 import 'package:weather_app_project/ui/weather_screen.dart';
@@ -5,7 +6,7 @@ import 'package:weather_app_project/ui/weather_screen.dart';
 import '../resources/resources.dart';
 
 class SecondScreen extends StatelessWidget {
-  const SecondScreen({super.key});
+  SecondScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +67,7 @@ class SecondScreen extends StatelessWidget {
                   child: const CircleAvatar(
                     radius: 31.5,
                     backgroundColor: Color(0xff333333),
-                    child: Image(image: AssetImage(Images.locationPoint)),
+                    child: Image(image: AssetImage(Images.arrowRight)),
                   ),
                 ),
               ],
@@ -75,5 +76,13 @@ class SecondScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  final dio = Dio();
+
+  void getHttp() async {
+    final response = await dio.get(
+        'https://api.openweathermap.org/data/2.5/weather?lat=42.882004&lon=74.582748&appid=e4c7d413beed7d8cc6521ae67ca4d8f0');
+    print(response);
   }
 }
