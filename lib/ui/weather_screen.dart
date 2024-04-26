@@ -15,18 +15,11 @@ class WeatherScreen extends StatefulWidget {
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
-  int _selectedIndex = 2;
   String city = '';
   String temp = '';
   double wind = 0;
   String countryCode = '';
   double real_feels = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   void initState() {
@@ -44,16 +37,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
     return Scaffold(
       backgroundColor: const Color(0xff191919),
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.menu,
-            size: 24,
-            color: Colors.white,
-          ),
-        ),
+        automaticallyImplyLeading: false,
         title: Text(
           "$city, $countryCode",
           style: AppFonts.s16regular.copyWith(color: Colors.white),
@@ -62,7 +46,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
         actions: [
           IconButton(
             onPressed: () async {
-              final currentPosition = await _determinePosition();
               // print(currentPosition.latitude);
               // print(currentPosition.longitude);
               getData();
@@ -73,23 +56,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
               color: Colors.white,
             ),
           ),
-          // IconButton(
-          //   onPressed: () {
-          //     getData();
-          //     setState(() {});
-          //     // Navigator.push(
-          //     //   context,
-          //     //   MaterialPageRoute(
-          //     //     builder: (context) => const CitiesScreen(),
-          //     //   ),
-          //     // );
-          //   },
-          //   icon: const Icon(
-          //     Icons.add_location_alt_rounded,
-          //     size: 24,
-          //     // color: Colors.white,
-          //   ),
-          // ),
         ],
       ),
       body: Center(
@@ -186,44 +152,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color(0xff262626),
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            backgroundColor: Color(0xff262626),
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Color(0xff262626),
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Color(0xff262626),
-            icon: Icon(Icons.favorite),
-            label: 'Favorites',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Color(0xff262626),
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Color(0xff262626),
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        unselectedIconTheme: const IconThemeData(color: Color(0xffC6C6C6)),
-        selectedItemColor: const Color(0xff6929C4),
-        onTap: _onItemTapped,
       ),
     );
   }
@@ -235,16 +167,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
         "https://api.openweathermap.org/data/2.5/weather?lat=${currentLocation.latitude}&lon=${currentLocation.longitude}&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
     city = response.data["name"];
     temp = response.data["main"]["temp"].toString();
-    // real_feel = response.data[""]
     wind = response.data["wind"]["speed"];
     countryCode = response.data["sys"]["country"];
     real_feels = response.data["main"]["feels_like"];
-    print(real_feels.toString());
-
-    print(response.data);
-    // print(response.data["main"]["temp"]);
-    // print(wind.toString());
-    // print(countryCode);
     setState(() {});
   }
 

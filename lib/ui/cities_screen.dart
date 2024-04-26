@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app_project/resources/resources.dart';
+import 'package:weather_app_project/ui/common_widgets/my_cities_widget.dart';
 
 class CitiesScreen extends StatelessWidget {
   const CitiesScreen({super.key});
@@ -9,15 +10,7 @@ class CitiesScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ),
-        ),
+        automaticallyImplyLeading: false,
         title: const Text(
           "Cities screen",
           style: TextStyle(color: Colors.white),
@@ -85,63 +78,6 @@ class CitiesScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class MyCitiesWidget extends StatelessWidget {
-  const MyCitiesWidget(
-      {super.key,
-      required this.weatherImage,
-      required this.cityName,
-      required this.weatherTemp});
-
-  final String weatherTemp;
-  final String cityName;
-  final String weatherImage;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: <Widget>[
-        Container(
-          width: 360,
-          height: 144,
-          decoration: const BoxDecoration(
-            color: Color(0xff292929),
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(400),
-              topLeft: Radius.circular(50),
-              bottomRight: Radius.circular(50),
-              bottomLeft: Radius.circular(50),
-            ),
-          ),
-          child: Padding(
-            padding: EdgeInsets.only(left: 19, top: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  weatherTemp,
-                  style: TextStyle(fontSize: 62, color: Colors.white),
-                ),
-                Text(
-                  cityName,
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Positioned(
-          right: 20,
-          top: 0,
-          child: Image(
-            image: AssetImage(weatherImage),
-          ),
-        ),
-      ],
     );
   }
 }

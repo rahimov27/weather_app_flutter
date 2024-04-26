@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app_project/core/app_fonts.dart';
-import 'package:weather_app_project/ui/weather_screen.dart';
+import 'package:weather_app_project/ui/pages_screen.dart';
 
 import '../resources/resources.dart';
 
@@ -61,7 +61,7 @@ class SecondScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const WeatherScreen()),
+                          builder: (context) => const MyScreens()),
                     );
                   },
                   child: const CircleAvatar(
