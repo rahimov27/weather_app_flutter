@@ -20,6 +20,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   double wind = 0;
   String countryCode = '';
   double real_feels = 0;
+  String visib = '';
 
   @override
   void initState() {
@@ -97,9 +98,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     temp: wind.toString(),
                     image: Images.hazzy,
                   ),
-                  const MyContainer(
-                    typeWeather: 'Chance of Rain',
-                    temp: "",
+                  MyContainer(
+                    typeWeather: 'Visibility',
+                    temp: visib,
                     image: Images.stormyDay,
                   ),
                   MyContainer(
@@ -170,6 +171,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
     wind = response.data["wind"]["speed"];
     countryCode = response.data["sys"]["country"];
     real_feels = response.data["main"]["feels_like"];
+    visib = response.data["visibility"].toString();
+
     setState(() {});
   }
 

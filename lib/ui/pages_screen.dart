@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app_project/ui/search_screen.dart';
 import 'package:weather_app_project/ui/cities_screen.dart';
 import 'package:weather_app_project/ui/weather_screen.dart';
 
@@ -21,14 +22,7 @@ class _MyScreensState extends State<MyScreens> {
   List<Widget> widgets = [
     const WeatherScreen(),
     const CitiesScreen(),
-    const Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Screen0"),
-        ],
-      ),
-    ),
+    const SearchScreen(),
   ];
 
   @override
