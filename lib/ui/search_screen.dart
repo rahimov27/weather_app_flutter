@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:weather_app_project/resources/resources.dart';
-import 'package:marquee_widget/marquee_widget.dart';
+import 'package:weather_app_project/ui/common_widgets/my_daily_widget.dart';
+// import 'package:marquee_widget/marquee_widget.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -13,6 +13,24 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController controller = TextEditingController();
+
+  String dayOneTemp = '';
+  String dayOneDate = '';
+
+  String dayTwoTemp = '';
+  String dayTwoDate = '';
+
+  String dayThreeTemp = '';
+  String dayThreeDate = '';
+
+  String dayFourTemp = '';
+  String dayFourDate = '';
+
+  String dayFiveTemp = '';
+  String dayFiveDate = '';
+
+  double todayTemp = 0;
+
   String cityLat = '';
   String cityLon = '';
 
@@ -26,6 +44,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     bgImage = defaultImage;
+
     super.initState();
   }
 
@@ -54,8 +73,8 @@ class _SearchScreenState extends State<SearchScreen> {
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.search),
                   onPressed: () {
-                    getData();
                     findImage();
+                    getDataByDay();
                     controller.text = '';
                   },
                 ),
@@ -78,7 +97,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       colorFilter: ColorFilter.mode(
                           Colors.black.withOpacity(0.10), BlendMode.srcOver),
                       child: Image.network(
-                        bgImage ?? defaultImage,
+                        bgImage,
                         height: 400,
                         width: 361,
                         fit: BoxFit.cover,
@@ -105,7 +124,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           height: 13,
                         ),
                         Text(
-                          weatherTemp.toString(),
+                          todayTemp.toString(),
                           style: GoogleFonts.reemKufi(
                             fontSize: 100,
                             color: Colors.white,
@@ -121,18 +140,42 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 5),
+              Padding(
+                padding: const EdgeInsets.only(left: 5),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      MyDailyWidget(),
-                      MyDailyWidget(),
-                      MyDailyWidget(),
-                      MyDailyWidget(),
-                      MyDailyWidget(),
-                      MyDailyWidget(),
+                      MyDailyWidget(
+                        day: dayOneDate.length >= 10
+                            ? dayOneDate.substring(8, 10)
+                            : '',
+                        temp: dayOneTemp,
+                      ),
+                      MyDailyWidget(
+                        day: dayTwoDate.length >= 10
+                            ? dayTwoDate.substring(8, 10)
+                            : '',
+                        temp: dayTwoTemp,
+                      ),
+                      MyDailyWidget(
+                        day: dayThreeDate.length >= 10
+                            ? dayThreeDate.substring(8, 10)
+                            : '',
+                        temp: dayThreeTemp,
+                      ),
+                      MyDailyWidget(
+                        day: dayFourDate.length >= 10
+                            ? dayFourDate.substring(8, 10)
+                            : '',
+                        temp: dayFiveTemp,
+                      ),
+                      MyDailyWidget(
+                        day: dayFiveDate.length >= 10
+                            ? dayFiveDate.substring(8, 10)
+                            : '',
+                        temp: dayFiveTemp,
+                      ),
                     ],
                   ),
                 ),
@@ -163,67 +206,52 @@ class _SearchScreenState extends State<SearchScreen> {
     final imageResponse = await dio.get(
         "https://api.unsplash.com/search/photos?query=${controller.text}&client_id=pDwlc8evJ9bxPFLNW7uWhbpSRmxxtLHdnEN0Nr0L94Q");
     bgImage = imageResponse.data['results'][4]['urls']['regular'];
-    print(bgImage);
+    // print(bgImage);
     setState(() {});
 
     String defaultImage =
         "https://images.unsplash.com/photo-1512495039889-52a3b799c9bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1OTU1NjF8MHwxfHNlYXJjaHw1fHxNb3Njb3d8ZW58MHx8fHwxNzE0MjY4NDYyfDA&ixlib=rb-4.0.3&q=80&w=1080";
   }
 
-  Future<void> getData() async {
+  Future<void> getDataByDay() async {
     final dio = Dio();
 
     final response = await dio.get(
-        'http://api.openweathermap.org/geo/1.0/direct?q=${controller.text}&limit=5&appid=e4c7d413beed7d8cc6521ae67ca4d8f0');
-    // print(response.data);
-    // print(response.data["lat"]);
+        'https://api.openweathermap.org/geo/1.0/direct?q=${controller.text}&limit=5&appid=e4c7d413beed7d8cc6521ae67ca4d8f0');
     cityLat = response.data[0]["lat"].toString();
     cityLon = response.data[0]["lon"].toString();
-    // print(cityLat);
-    // print(cityLon);
-    // cityLat = response.data["lat"];
     final responseWeatherCity = await dio.get(
-        "https://api.openweathermap.org/data/2.5/weather?lat=${cityLat}&lon=${cityLon}&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
+        "https://api.openweathermap.org/data/2.5/forecast?lat=${cityLat}&lon=${cityLon}&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
     // print(responseWeatherCity.data);
-    weatherTemp = responseWeatherCity.data["main"]["temp"];
-    cityName = responseWeatherCity.data["name"];
-    windSpeed = responseWeatherCity.data["wind"]["speed"];
+    // dayOneTemp = responseWeatherCity.data["list"][0];
+    // dayTwoTemp = responseWeatherCity.data["list"][8]["dt_txt"];
+    // dayThreeTemp = responseWeatherCity.data["list"][16]["dt_txt"];
+    // dayFourTemp = responseWeatherCity.data["list"][24]["dt_txt"];
+    // dayFiveTemp = responseWeatherCity.data["list"][32]["dt_txt"];
+
+    todayTemp = responseWeatherCity.data["list"][0]["main"]["temp"];
+
+    dayOneTemp = responseWeatherCity.data["list"][0]["main"]["temp"].toString();
+    dayOneDate = responseWeatherCity.data["list"][0]["dt_txt"].toString();
+
+    dayTwoTemp = responseWeatherCity.data["list"][8]["main"]["temp"].toString();
+    dayTwoDate = responseWeatherCity.data["list"][8]["dt_txt"].toString();
+
+    dayThreeTemp =
+        responseWeatherCity.data["list"][16]["main"]["temp"].toString();
+    dayThreeDate = responseWeatherCity.data["list"][16]["dt_txt"].toString();
+
+    dayFourTemp =
+        responseWeatherCity.data["list"][24]["main"]["temp"].toString();
+    dayFourDate = responseWeatherCity.data["list"][24]["dt_txt"].toString();
+
+    dayFiveTemp =
+        responseWeatherCity.data["list"][32]["main"]["temp"].toString();
+    dayFiveDate = responseWeatherCity.data["list"][32]["dt_txt"].toString();
+
+    // print("day one date -${dayOneDate} --- day one temp ${dayOneTemp}");
+    // print(dayOneDate.substring(8, 10));
+
     setState(() {});
-  }
-}
-
-class MyDailyWidget extends StatelessWidget {
-  const MyDailyWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: const Color(0xff292929),
-      ),
-      height: 130,
-      width: 60,
-      child: const Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "Mon",
-            style: TextStyle(fontSize: 12, color: Colors.white),
-          ),
-          Image(
-            image: AssetImage(Images.cloud1),
-            width: 60,
-          ),
-          Text(
-            "26",
-            style: TextStyle(color: Colors.white),
-          )
-        ],
-      ),
-    );
   }
 }

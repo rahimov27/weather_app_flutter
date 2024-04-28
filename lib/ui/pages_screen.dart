@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app_project/resources/resources.dart';
 import 'package:weather_app_project/ui/search_screen.dart';
 import 'package:weather_app_project/ui/cities_screen.dart';
 import 'package:weather_app_project/ui/weather_screen.dart';
@@ -33,23 +34,32 @@ class _MyScreensState extends State<MyScreens> {
       // ),
       body: widgets[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        fixedColor: const Color(0xffC5FD39),
         currentIndex: currentIndex,
+        unselectedItemColor: Colors.white.withOpacity(0.60),
+        backgroundColor: const Color(0xff262626),
         onTap: (index) {
           currentIndex = index;
           setState(() {});
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Image(
+              image: AssetImage(Images.home),
+            ), // Replace 'home_icon.png' with your image asset path
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.verified_user),
-            label: "User",
+            icon: Image(
+              image: AssetImage(Images.heart),
+            ),
+            label: "Liked",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.face),
-            label: "Face",
+            icon: Image(
+              image: AssetImage(Images.search),
+            ),
+            label: "User",
           ),
         ],
       ),
