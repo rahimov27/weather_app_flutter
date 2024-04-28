@@ -17,6 +17,8 @@ class _SearchScreenState extends State<SearchScreen> {
   String cityName = '';
   double windSpeed = 0;
 
+  String bgImage = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,15 +36,17 @@ class _SearchScreenState extends State<SearchScreen> {
               TextField(
                 controller: controller,
                 decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    hintText: "Enter city name",
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: () {
-                        getData();
-                        controller.text = '';
-                      },
-                    )),
+                  border: const OutlineInputBorder(),
+                  hintText: "Enter city name",
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      getData();
+                      findImage();
+                      controller.text = '';
+                    },
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 30,
@@ -52,21 +56,31 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
               Text(
                 weatherTemp.toString(),
-                style: TextStyle(fontSize: 40),
+                style: const TextStyle(fontSize: 40),
               ),
               Text(
                 cityName,
-                style: TextStyle(fontSize: 40),
+                style: const TextStyle(fontSize: 40),
               ),
               Text(
                 "Wind speed $windSpeed",
-                style: TextStyle(fontSize: 40),
+                style: const TextStyle(fontSize: 40),
               ),
+              Image.network("$bgImage")
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> findImage() async {
+    final dio = Dio();
+    final imageResponse = await dio.get(
+        "https://api.unsplash.com/search/photos?query=${controller.text}&client_id=pDwlc8evJ9bxPFLNW7uWhbpSRmxxtLHdnEN0Nr0L94Q");
+    bgImage = imageResponse.data['results'][4]['urls']['regular'];
+    print(bgImage);
+    setState(() {});
   }
 
   Future<void> getData() async {
@@ -83,7 +97,7 @@ class _SearchScreenState extends State<SearchScreen> {
     // cityLat = response.data["lat"];
     final responseWeatherCity = await dio.get(
         "https://api.openweathermap.org/data/2.5/weather?lat=${cityLat}&lon=${cityLon}&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
-    print(responseWeatherCity.data);
+    // print(responseWeatherCity.data);
     weatherTemp = responseWeatherCity.data["main"]["temp"];
     cityName = responseWeatherCity.data["name"];
     windSpeed = responseWeatherCity.data["wind"]["speed"];
