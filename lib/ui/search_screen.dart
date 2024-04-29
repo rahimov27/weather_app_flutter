@@ -36,6 +36,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   double weatherTemp = 0;
   String cityName = '';
+  String cityCode = '';
   double windSpeed = 0;
 
   String bgImage = '';
@@ -114,11 +115,11 @@ class _SearchScreenState extends State<SearchScreen> {
                           height: 26,
                         ),
                         Text(
-                          cityName,
+                          "$cityName $cityCode",
                           style: const TextStyle(
                               fontSize: 36,
                               color: Colors.white,
-                              fontWeight: FontWeight.w900),
+                              fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
                           height: 13,
@@ -149,31 +150,31 @@ class _SearchScreenState extends State<SearchScreen> {
                       MyDailyWidget(
                         day: dayOneDate.length >= 10
                             ? dayOneDate.substring(8, 10)
-                            : '',
+                            : '1',
                         temp: dayOneTemp,
                       ),
                       MyDailyWidget(
                         day: dayTwoDate.length >= 10
                             ? dayTwoDate.substring(8, 10)
-                            : '',
+                            : '2',
                         temp: dayTwoTemp,
                       ),
                       MyDailyWidget(
                         day: dayThreeDate.length >= 10
                             ? dayThreeDate.substring(8, 10)
-                            : '',
+                            : '3',
                         temp: dayThreeTemp,
                       ),
                       MyDailyWidget(
                         day: dayFourDate.length >= 10
                             ? dayFourDate.substring(8, 10)
-                            : '',
+                            : '4',
                         temp: dayFiveTemp,
                       ),
                       MyDailyWidget(
                         day: dayFiveDate.length >= 10
                             ? dayFiveDate.substring(8, 10)
-                            : '',
+                            : '5',
                         temp: dayFiveTemp,
                       ),
                     ],
@@ -228,6 +229,8 @@ class _SearchScreenState extends State<SearchScreen> {
     // dayThreeTemp = responseWeatherCity.data["list"][16]["dt_txt"];
     // dayFourTemp = responseWeatherCity.data["list"][24]["dt_txt"];
     // dayFiveTemp = responseWeatherCity.data["list"][32]["dt_txt"];
+    cityName = response.data[0]["name"];
+    cityCode = response.data[0]["country"];
 
     todayTemp = responseWeatherCity.data["list"][0]["main"]["temp"];
 

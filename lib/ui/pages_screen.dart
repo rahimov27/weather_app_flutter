@@ -33,35 +33,40 @@ class _MyScreensState extends State<MyScreens> {
       //   title: Text("Pages screen"),
       // ),
       body: widgets[currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        fixedColor: const Color(0xffC5FD39),
-        currentIndex: currentIndex,
-        unselectedItemColor: Colors.white.withOpacity(0.60),
-        backgroundColor: const Color(0xff262626),
-        onTap: (index) {
-          currentIndex = index;
-          setState(() {});
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Image(
-              image: AssetImage(Images.home),
-            ), // Replace 'home_icon.png' with your image asset path
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Image(
-              image: AssetImage(Images.heart),
+      bottomNavigationBar: Container(
+        height: 96,
+        child: BottomNavigationBar(
+          fixedColor: const Color(0xffC5FD39),
+          currentIndex: currentIndex,
+          unselectedItemColor: Colors.white.withOpacity(0.60),
+          backgroundColor: const Color(0xff262626),
+          onTap: (index) {
+            currentIndex = index;
+            setState(() {});
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Image(
+                image: AssetImage(
+                  Images.home,
+                ),
+              ), // Replace 'home_icon.png' with your image asset path
+              label: "Home",
             ),
-            label: "Liked",
-          ),
-          BottomNavigationBarItem(
-            icon: Image(
-              image: AssetImage(Images.search),
+            BottomNavigationBarItem(
+              icon: Image(
+                image: AssetImage(Images.heart),
+              ),
+              label: "Liked",
             ),
-            label: "User",
-          ),
-        ],
+            BottomNavigationBarItem(
+              icon: Image(
+                image: AssetImage(Images.search),
+              ),
+              label: "User",
+            ),
+          ],
+        ),
       ),
     );
   }
