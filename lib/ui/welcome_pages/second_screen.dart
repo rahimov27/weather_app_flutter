@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app_project/core/app_fonts.dart';
-import 'package:weather_app_project/ui/pages_screen.dart';
+import 'package:weather_app_project/ui/PagesScreen.dart';
 
-import '../resources/resources.dart';
+import '../../resources/resources.dart';
 
 class SecondScreen extends StatelessWidget {
   SecondScreen({super.key});
@@ -55,13 +55,13 @@ class SecondScreen extends StatelessWidget {
                     style: AppFonts.s16regular.copyWith(color: Colors.white),
                   ),
                 ),
-                const SizedBox(height: 68),
+                const SizedBox(height: 20),
                 InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MyScreens()),
+                          builder: (context) => const PagesScreen()),
                     );
                   },
                   child: const CircleAvatar(

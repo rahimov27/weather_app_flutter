@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app_project/resources/resources.dart';
-import 'package:weather_app_project/ui/search_screen.dart';
-import 'package:weather_app_project/ui/cities_screen.dart';
-import 'package:weather_app_project/ui/weather_screen.dart';
+import 'package:weather_app_project/ui/SearchPage.dart';
+import 'package:weather_app_project/ui/LikedPage.dart';
+import 'package:weather_app_project/ui/HomePage.dart';
 
 void main() {
   runApp(const MaterialApp(
-    home: MyScreens(),
+    home: PagesScreen(),
   ));
 }
 
-class MyScreens extends StatefulWidget {
-  const MyScreens({super.key});
+class PagesScreen extends StatefulWidget {
+  const PagesScreen({super.key});
 
   @override
-  State<MyScreens> createState() => _MyScreensState();
+  State<PagesScreen> createState() => _PagesScreenState();
 }
 
-class _MyScreensState extends State<MyScreens> {
+class _PagesScreenState extends State<PagesScreen> {
   int currentIndex = 0;
 
   List<Widget> widgets = [
-    const WeatherScreen(),
+    const HomePage(),
     const CitiesScreen(),
-    const SearchScreen(),
+    const SearchPage(),
   ];
 
   @override
@@ -33,7 +33,7 @@ class _MyScreensState extends State<MyScreens> {
       //   title: Text("Pages screen"),
       // ),
       body: widgets[currentIndex],
-      bottomNavigationBar: Container(
+      bottomNavigationBar: SizedBox(
         height: 96,
         child: BottomNavigationBar(
           fixedColor: const Color(0xffC5FD39),
@@ -63,7 +63,7 @@ class _MyScreensState extends State<MyScreens> {
               icon: Image(
                 image: AssetImage(Images.search),
               ),
-              label: "User",
+              label: "Search",
             ),
           ],
         ),

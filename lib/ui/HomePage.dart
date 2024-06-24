@@ -5,16 +5,16 @@ import 'package:intl/intl.dart';
 import 'package:weather_app_project/core/app_fonts.dart';
 import 'package:weather_app_project/resources/resources.dart';
 import 'package:weather_app_project/ui/common_widgets/my_container.dart';
-import 'package:weather_app_project/ui/common_widgets/my_row_widget.dart';
+import 'package:weather_app_project/ui/common_widgets/my_daily_widget.dart';
 
-class WeatherScreen extends StatefulWidget {
-  const WeatherScreen({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<WeatherScreen> createState() => _WeatherScreenState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _WeatherScreenState extends State<WeatherScreen> {
+class _HomePageState extends State<HomePage> {
   String city = '';
   String temp = '';
   double wind = 0;
@@ -110,47 +110,17 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 38),
+              const SizedBox(height: 10),
               const SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    MyRowWidget(
-                      temp: "26",
-                      typeOfWeather: "Row",
-                      image: Images.hazzy,
-                    ),
-                    MyRowWidget(
-                      temp: "22",
-                      typeOfWeather: "Row",
-                      image: Images.hazzy,
-                    ),
-                    MyRowWidget(
-                      temp: "1",
-                      typeOfWeather: "Row",
-                      image: Images.hazzy,
-                    ),
-                    MyRowWidget(
-                      temp: "15",
-                      typeOfWeather: "Row",
-                      image: Images.hazzy,
-                    ),
-                    MyRowWidget(
-                      temp: "16",
-                      typeOfWeather: "Row",
-                      image: Images.hazzy,
-                    ),
-                    MyRowWidget(
-                      temp: "22",
-                      typeOfWeather: "Row",
-                      image: Images.hazzy,
-                    ),
-                    MyRowWidget(
-                      temp: "32",
-                      typeOfWeather: "Row",
-                      image: Images.hazzy,
-                    ),
+                    MyDailyWidget(day: "1", temp: "temp"),
+                    MyDailyWidget(day: "1", temp: "temp"),
+                    MyDailyWidget(day: "1", temp: "temp"),
+                    MyDailyWidget(day: "1", temp: "temp"),
+                    MyDailyWidget(day: "1", temp: "temp"),
                   ],
                 ),
               ),
@@ -172,6 +142,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
     countryCode = response.data["sys"]["country"];
     real_feels = response.data["main"]["feels_like"];
     visib = response.data["visibility"].toString();
+
+    // response for five days
 
     setState(() {});
   }

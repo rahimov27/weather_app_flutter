@@ -4,14 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_app_project/ui/common_widgets/my_daily_widget.dart';
 // import 'package:marquee_widget/marquee_widget.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+class SearchPage extends StatefulWidget {
+  const SearchPage({super.key});
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<SearchPage> createState() => _SearchPageState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SearchPageState extends State<SearchPage> {
   TextEditingController controller = TextEditingController();
 
   String dayOneTemp = '';
@@ -45,6 +45,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     bgImage = defaultImage;
+    getDataByDay();
 
     super.initState();
   }
@@ -65,8 +66,11 @@ class _SearchScreenState extends State<SearchScreen> {
               decoration: InputDecoration(
                 contentPadding:
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white)),
                 hintText: "Enter city name",
                 hintStyle: const TextStyle(
                   color: Colors.white,
@@ -76,6 +80,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   onPressed: () {
                     findImage();
                     getDataByDay();
+                    setState(() {});
                     controller.text = '';
                   },
                 ),
@@ -222,7 +227,7 @@ class _SearchScreenState extends State<SearchScreen> {
     cityLat = response.data[0]["lat"].toString();
     cityLon = response.data[0]["lon"].toString();
     final responseWeatherCity = await dio.get(
-        "https://api.openweathermap.org/data/2.5/forecast?lat=${cityLat}&lon=${cityLon}&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
+        "https://api.openweathermap.org/data/2.5/forecast?lat=$cityLat&lon=$cityLon&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
     // print(responseWeatherCity.data);
     // dayOneTemp = responseWeatherCity.data["list"][0];
     // dayTwoTemp = responseWeatherCity.data["list"][8]["dt_txt"];

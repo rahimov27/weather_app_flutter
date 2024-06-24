@@ -121,15 +121,15 @@ class _CitiesScreenState extends State<CitiesScreen> {
   Future<void> getData() async {
     final Dio dio = Dio();
     final Response responseMoscow = await dio.get(
-        "https://api.openweathermap.org/data/2.5/weather?lat=${moscowLat}&lon=${moscowLon}&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
+        "https://api.openweathermap.org/data/2.5/weather?lat=$moscowLat&lon=$moscowLon&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
     final Response responseBishkek = await dio.get(
-        "https://api.openweathermap.org/data/2.5/weather?lat=${bishkekLat}&lon=${bishkekLon}&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
+        "https://api.openweathermap.org/data/2.5/weather?lat=$bishkekLat&lon=$bishkekLon&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
     final Response responseBerlin = await dio.get(
-        "https://api.openweathermap.org/data/2.5/weather?lat=${berlinLat}&lon=${berlinLon}&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
+        "https://api.openweathermap.org/data/2.5/weather?lat=$berlinLat&lon=$berlinLon&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
     final Response responseKiev = await dio.get(
-        "https://api.openweathermap.org/data/2.5/weather?lat=${kievlat}&lon=${kievlon}&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
+        "https://api.openweathermap.org/data/2.5/weather?lat=$kievlat&lon=$kievlon&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
     final Response responsePotsdam = await dio.get(
-        "https://api.openweathermap.org/data/2.5/weather?lat=${potsdamlat}&lon=${potsdamlon}&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
+        "https://api.openweathermap.org/data/2.5/weather?lat=$potsdamlat&lon=$potsdamlon&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
 
     setState(() {});
 

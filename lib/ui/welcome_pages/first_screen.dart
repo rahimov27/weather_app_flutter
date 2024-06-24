@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app_project/core/app_fonts.dart';
-import 'package:weather_app_project/ui/second_screen.dart';
+import 'package:weather_app_project/ui/welcome_pages/second_screen.dart';
 
-import '../resources/resources.dart';
+import '../../resources/resources.dart';
 
 class FirstScreen extends StatelessWidget {
   const FirstScreen({super.key});
@@ -56,7 +56,7 @@ class FirstScreen extends StatelessWidget {
                         .copyWith(color: const Color(0xff545454)),
                   ),
                 ),
-                const SizedBox(height: 68),
+                const SizedBox(height: 20),
                 InkWell(
                   onTap: () {
                     Navigator.push(
