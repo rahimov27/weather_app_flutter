@@ -151,6 +151,7 @@ class _SearchPageState extends State<SearchPage> {
                 child: Row(
                   children: [
                     MyDailyWidget(
+                      
                       day: dayOneDate.length >= 10
                           ? dayOneDate.substring(8, 10)
                           : '1',
