@@ -40,7 +40,7 @@ class MyDailyWidget extends StatelessWidget {
             const SizedBox(
               width: 24,
               height: 24,
-            ), // You can use a placeholder image here if needed
+            ),
           Text(
             temp,
             style: const TextStyle(color: Colors.white),

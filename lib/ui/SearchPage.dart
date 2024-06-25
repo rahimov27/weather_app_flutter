@@ -56,6 +56,8 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: const Color(0xff191919),
       appBar: PreferredSize(
@@ -107,8 +109,8 @@ class _SearchPageState extends State<SearchPage> {
                           Colors.black.withOpacity(0.10), BlendMode.srcOver),
                       child: Image.network(
                         bgImage,
-                        height: 400,
-                        width: 361,
+                        height: screenSize.height * 0.5,
+                        width: screenSize.width * 0.9,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -135,89 +137,67 @@ class _SearchPageState extends State<SearchPage> {
                         Text(
                           todayTemp.toString(),
                           style: GoogleFonts.reemKufi(
-                            fontSize: 100,
+                            fontSize: screenSize.width * 0.2,
                             color: Colors.white,
                           ),
                         ),
-                        // Text(
-                        //   "Wind speed $windSpeed",
-                        //   style: const TextStyle(
-                        //       fontSize: 40, color: Colors.white),
-                        // ),
                       ],
                     ),
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 5),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      MyDailyWidget(
-                        day: dayOneDate.length >= 10
-                            ? dayOneDate.substring(8, 10)
-                            : '1',
-                        temp: dayOneTemp,
-                        imagePath: dayOneIcon.isNotEmpty
-                            ? 'http://openweathermap.org/img/wn/$dayOneIcon@2x.png'
-                            : null,
-                      ),
-                      MyDailyWidget(
-                        day: dayTwoDate.length >= 10
-                            ? dayTwoDate.substring(8, 10)
-                            : '2',
-                        temp: dayTwoTemp,
-                        imagePath: dayTwoIcon.isNotEmpty
-                            ? 'http://openweathermap.org/img/wn/$dayTwoIcon@2x.png'
-                            : null,
-                      ),
-                      MyDailyWidget(
-                        day: dayThreeDate.length >= 10
-                            ? dayThreeDate.substring(8, 10)
-                            : '3',
-                        temp: dayThreeTemp,
-                        imagePath: dayThreeIcon.isNotEmpty
-                            ? 'http://openweathermap.org/img/wn/$dayThreeIcon@2x.png'
-                            : null,
-                      ),
-                      MyDailyWidget(
-                        day: dayFourDate.length >= 10
-                            ? dayFourDate.substring(8, 10)
-                            : '4',
-                        temp: dayFourTemp,
-                        imagePath: dayFourIcon.isNotEmpty
-                            ? 'http://openweathermap.org/img/wn/$dayFourIcon@2x.png'
-                            : null,
-                      ),
-                      MyDailyWidget(
-                        day: dayFiveDate.length >= 10
-                            ? dayFiveDate.substring(8, 10)
-                            : '5',
-                        temp: dayFiveTemp,
-                        imagePath: dayFiveIcon.isNotEmpty
-                            ? 'http://openweathermap.org/img/wn/$dayFiveIcon@2x.png'
-                            : null,
-                      ),
-                    ],
-                  ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    MyDailyWidget(
+                      day: dayOneDate.length >= 10
+                          ? dayOneDate.substring(8, 10)
+                          : '1',
+                      temp: dayOneTemp,
+                      imagePath: dayOneIcon.isNotEmpty
+                          ? 'http://openweathermap.org/img/wn/$dayOneIcon@2x.png'
+                          : null,
+                    ),
+                    MyDailyWidget(
+                      day: dayTwoDate.length >= 10
+                          ? dayTwoDate.substring(8, 10)
+                          : '2',
+                      temp: dayTwoTemp,
+                      imagePath: dayTwoIcon.isNotEmpty
+                          ? 'http://openweathermap.org/img/wn/$dayTwoIcon@2x.png'
+                          : null,
+                    ),
+                    MyDailyWidget(
+                      day: dayThreeDate.length >= 10
+                          ? dayThreeDate.substring(8, 10)
+                          : '3',
+                      temp: dayThreeTemp,
+                      imagePath: dayThreeIcon.isNotEmpty
+                          ? 'http://openweathermap.org/img/wn/$dayThreeIcon@2x.png'
+                          : null,
+                    ),
+                    MyDailyWidget(
+                      day: dayFourDate.length >= 10
+                          ? dayFourDate.substring(8, 10)
+                          : '4',
+                      temp: dayFourTemp,
+                      imagePath: dayFourIcon.isNotEmpty
+                          ? 'http://openweathermap.org/img/wn/$dayFourIcon@2x.png'
+                          : null,
+                    ),
+                    MyDailyWidget(
+                      day: dayFiveDate.length >= 10
+                          ? dayFiveDate.substring(8, 10)
+                          : '5',
+                      temp: dayFiveTemp,
+                      imagePath: dayFiveIcon.isNotEmpty
+                          ? 'http://openweathermap.org/img/wn/$dayFiveIcon@2x.png'
+                          : null,
+                    ),
+                  ],
                 ),
               ),
-              // Marquee(
-              //   child: Text(
-              //     'This project is a starting point for a Dart package This project is a starting point for a Dart package',
-              //     style: TextStyle(color: Colors.white),
-              //   ),
-              //   direction: Axis.horizontal,
-              //   textDirection: TextDirection.rtl,
-              //   animationDuration: Duration(
-              //       seconds: 10), // Adjust animation duration as needed
-              //   backDuration:
-              //       Duration(seconds: 10), // Adjust back duration as needed
-              //   pauseDuration: Duration.zero, // Set pause duration to zero
-              //   directionMarguee: DirectionMarguee.oneDirection,
-              // )
             ],
           ),
         ),
