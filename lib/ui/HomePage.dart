@@ -20,7 +20,16 @@ class _HomePageState extends State<HomePage> {
   double wind = 0;
   String countryCode = '';
   double real_feels = 0;
-  String visib = '';
+  String visibility = '';
+  String feels_like = '';
+  String temp_min = '';
+  String temp_max = '';
+  String pressure = '';
+  String sea_level = '';
+  String grnd_level = '';
+  String humidity = '';
+  String temp_kf = '';
+  String image_icon = '';
 
   @override
   void initState() {
@@ -35,6 +44,9 @@ class _HomePageState extends State<HomePage> {
     // Format the current time as "hour:minute"
     String formattedTime = DateFormat.Hm().format(now);
 
+    var screenSize = MediaQuery.of(context).size;
+    var isPortrait = screenSize.height > screenSize.width;
+
     return Scaffold(
       backgroundColor: const Color(0xff191919),
       appBar: AppBar(
@@ -47,9 +59,8 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             onPressed: () async {
-              // print(currentPosition.latitude);
-              // print(currentPosition.longitude);
               getData();
+              setState(() {});
             },
             icon: const Icon(
               Icons.add_location_alt_sharp,
@@ -72,23 +83,38 @@ class _HomePageState extends State<HomePage> {
                 formattedTime,
                 style: AppFonts.s16regular.copyWith(color: Colors.white),
               ),
-              Stack(
-                children: [
-                  Text(
-                    temp,
-                    style: const TextStyle(
-                      fontSize: 100,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+              Expanded(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    ShaderMask(
+                      shaderCallback: (bounds) => const LinearGradient(
+                        colors: [Colors.white, Color.fromARGB(0, 0, 0, 0)],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        stops: [0.7, 1.0],
+                      ).createShader(bounds),
+                      child: Text(
+                        temp,
+                        style: TextStyle(
+                          fontSize: screenSize.width * 0.35,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'ReemKufi',
+                        ),
+                      ),
                     ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 80),
-                    child: Image(
-                      image: AssetImage(Images.dayWind),
-                    ),
-                  ),
-                ],
+                    if (image_icon.isNotEmpty)
+                      Positioned(
+                        top: screenSize.height * 0.20,
+                        child: Image.network(
+                          'http://openweathermap.org/img/wn/$image_icon@2x.png',
+                          width: screenSize.width * 0.4,
+                          height: screenSize.width * 0.4,
+                        ),
+                      ),
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   MyContainer(
                     typeWeather: 'Visibility',
-                    temp: visib,
+                    temp: visibility,
                     image: Images.stormyDay,
                   ),
                   MyContainer(
@@ -111,16 +137,49 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               const SizedBox(height: 10),
-              const SingleChildScrollView(
+              SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    MyDailyWidget(day: "1", temp: "temp"),
-                    MyDailyWidget(day: "1", temp: "temp"),
-                    MyDailyWidget(day: "1", temp: "temp"),
-                    MyDailyWidget(day: "1", temp: "temp"),
-                    MyDailyWidget(day: "1", temp: "temp"),
+                    MyDailyWidget(
+                      day: "Temp max",
+                      temp: temp_max,
+                      imagePath:
+                          '/Users/r27/StudioProjects/weather_app_project/assets/icons_svg/temp-max.svg',
+                    ),
+                    MyDailyWidget(
+                      day: "Temp min",
+                      temp: temp_min,
+                      imagePath:
+                          '/Users/r27/StudioProjects/weather_app_project/assets/icons_svg/temp-min.svg',
+                    ),
+                    MyDailyWidget(
+                      day: "Pressure",
+                      temp: pressure,
+                      imagePath:
+                          '/Users/r27/StudioProjects/weather_app_project/assets/icons_svg/pressure.svg',
+                    ),
+                    MyDailyWidget(
+                      day: "Humidity",
+                      temp: humidity,
+                      imagePath:
+                          '/Users/r27/StudioProjects/weather_app_project/assets/icons_svg/humidity.svg',
+                    ),
+                    MyDailyWidget(
+                      day: "Grnd level",
+                      temp: grnd_level,
+                      imagePath:
+                          '/Users/r27/StudioProjects/weather_app_project/assets/icons_svg/grnd-level.svg',
+                    ),
+                    MyDailyWidget(
+                      day: "Sea level",
+                      temp: sea_level,
+                      imagePath:
+                          '/Users/r27/StudioProjects/weather_app_project/assets/icons_svg/sea-level.svg',
+                    ),
+
+                    // MyDailyWidget(day: "Temp kf", temp: temp_kf),
                   ],
                 ),
               ),
@@ -141,9 +200,16 @@ class _HomePageState extends State<HomePage> {
     wind = response.data["wind"]["speed"];
     countryCode = response.data["sys"]["country"];
     real_feels = response.data["main"]["feels_like"];
-    visib = response.data["visibility"].toString();
-
-    // response for five days
+    visibility = response.data["visibility"].toString();
+    feels_like = response.data['main']['feels_like'].toString();
+    temp_min = response.data['main']['temp_min'].toString();
+    temp_max = response.data['main']['temp_max'].toString();
+    pressure = response.data['main']['pressure'].toString();
+    sea_level = response.data['main']['sea_level'].toString();
+    grnd_level = response.data['main']['grnd_level'].toString();
+    humidity = response.data['main']['humidity'].toString();
+    temp_kf = response.data['main']['temp_kf'].toString();
+    image_icon = response.data['weather'][0]['icon'].toString();
 
     setState(() {});
   }

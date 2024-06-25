@@ -45,7 +45,7 @@ class _CitiesScreenState extends State<CitiesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xff191919),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text(
