@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:weather_app_project/ui/SearchPage.dart';
 import 'package:weather_app_project/ui/LikedPage.dart';
 import 'package:weather_app_project/ui/HomePage.dart';
-import 'package:weather_app_project/ui/SettingsScreen.dart';
 
 void main() {
   runApp(
@@ -41,14 +40,12 @@ class _PagesScreenState extends State<PagesScreen> {
     const HomePage(),
     const CitiesScreen(),
     const SearchPage(),
-    const SettingsScreen(),
   ];
 
   final iconList = <IconData>[
     Icons.home,
     Icons.favorite,
     Icons.search,
-    Icons.settings,
   ];
 
   @override

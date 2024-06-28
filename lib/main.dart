@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:weather_app_project/ui/welcome_pages/first_screen.dart';
 import 'package:weather_app_project/ui/welcome_pages/splash_screen.dart';
 
 void main() {
