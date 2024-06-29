@@ -189,27 +189,32 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> getData() async {
-    final Dio dio = Dio();
-    final currentLocation = await _determinePosition();
-    final Response response = await dio.get(
-        "https://api.openweathermap.org/data/2.5/weather?lat=${currentLocation.latitude}&lon=${currentLocation.longitude}&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
-    city = response.data["name"];
-    temp = response.data["main"]["temp"].toString();
-    wind = response.data["wind"]["speed"];
-    countryCode = response.data["sys"]["country"];
-    real_feels = response.data["main"]["feels_like"];
-    visibility = response.data["visibility"].toString();
-    feels_like = response.data['main']['feels_like'].toString();
-    temp_min = response.data['main']['temp_min'].toString();
-    temp_max = response.data['main']['temp_max'].toString();
-    pressure = response.data['main']['pressure'].toString();
-    sea_level = response.data['main']['sea_level'].toString();
-    grnd_level = response.data['main']['grnd_level'].toString();
-    humidity = response.data['main']['humidity'].toString();
-    temp_kf = response.data['main']['temp_kf'].toString();
-    image_icon = response.data['weather'][0]['icon'].toString();
-
-    setState(() {});
+    try {
+      final Dio dio = Dio();
+      final currentLocation = await _determinePosition();
+      final Response response = await dio.get(
+          "https://api.openweathermap.org/data/2.5/weather?lat=${currentLocation.latitude}&lon=${currentLocation.longitude}&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
+      setState(() {
+        city = response.data["name"];
+        temp = response.data["main"]["temp"].toString();
+        wind = response.data["wind"]["speed"];
+        countryCode = response.data["sys"]["country"];
+        real_feels = response.data["main"]["feels_like"];
+        visibility = response.data["visibility"].toString();
+        feels_like = response.data['main']['feels_like'].toString();
+        temp_min = response.data['main']['temp_min'].toString();
+        temp_max = response.data['main']['temp_max'].toString();
+        pressure = response.data['main']['pressure'].toString();
+        sea_level = response.data['main']['sea_level'].toString();
+        grnd_level = response.data['main']['grnd_level'].toString();
+        humidity = response.data['main']['humidity'].toString();
+        temp_kf = response.data['main']['temp_kf'].toString();
+        image_icon = response.data['weather'][0]['icon'].toString();
+      });
+    } catch (e) {
+      print('Error fetching weather data: $e');
+      // Optionally, you can show a user-friendly message here
+    }
   }
 
   Future<Position> _determinePosition() async {
