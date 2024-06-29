@@ -14,40 +14,39 @@ class MyContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 15.0),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.white),
-          color: const Color(0xff262626),
-        ),
-        width: 115,
-        height: 64,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Text(
-                typeWeather,
-                style: AppFonts.s12regular.copyWith(color: Colors.white),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.white),
+        color: const Color(0xff262626),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 27, vertical: 10),
+      constraints: const BoxConstraints(
+        minWidth: 64, 
+        maxWidth: double.infinity, 
+      ),
+      child: Column(
+        mainAxisSize:
+            MainAxisSize.min, 
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text(
+            typeWeather,
+            style: AppFonts.s12regular.copyWith(color: Colors.white),
+          ),
+          Row(
+            mainAxisSize:
+                MainAxisSize.min, 
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                temp,
+                style: AppFonts.s16regular.copyWith(color: Colors.white),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                children: [
-                  Text(
-                    temp,
-                    style: AppFonts.s16regular.copyWith(color: Colors.white),
-                  ),
-                  const Spacer(),
-                  Image(image: AssetImage(image))
-                ],
-              ),
-            ),
-          ],
-        ),
+              Image(image: AssetImage(image))
+            ],
+          ),
+        ],
       ),
     );
   }

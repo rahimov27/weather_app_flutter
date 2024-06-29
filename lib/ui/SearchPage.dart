@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:weather_app_project/ui/common_widgets/my_daily_widget.dart';
+import 'package:weather_app_project/ui/common_widgets/SearchWidget.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -56,8 +56,6 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: const Color(0xff191919),
       appBar: PreferredSize(
@@ -95,113 +93,115 @@ class _SearchPageState extends State<SearchPage> {
           backgroundColor: const Color(0xff292929),
         ),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Stack(
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: ColorFiltered(
-                      colorFilter: ColorFilter.mode(
-                          Colors.black.withOpacity(0.10), BlendMode.srcOver),
-                      child: Image.network(
-                        bgImage,
-                        height: screenSize.height * 0.5,
-                        width: screenSize.width * 0.9,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 26,
-                    left: 0,
-                    right: 0,
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 26,
-                        ),
-                        Text(
-                          "$cityName $cityCode",
-                          style: const TextStyle(
-                              fontSize: 36,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 13,
-                        ),
-                        Text(
-                          todayTemp.toString(),
-                          style: GoogleFonts.reemKufi(
-                            fontSize: screenSize.width * 0.2,
-                            color: Colors.white,
+                  Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: ColorFiltered(
+                          colorFilter: ColorFilter.mode(
+                              Colors.black.withOpacity(0.10),
+                              BlendMode.srcOver),
+                          child: Image.network(
+                            bgImage,
+                            height: constraints.maxHeight * 0.7,
+                            width: constraints.maxWidth * 0.9,
+                            fit: BoxFit.cover,
                           ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 120,
+                        left: 0,
+                        right: 0,
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 26,
+                            ),
+                            Text(
+                              "$cityName $cityCode",
+                              style: const TextStyle(
+                                  fontSize: 40,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              todayTemp.toString(),
+                              style: GoogleFonts.reemKufi(
+                                fontSize: constraints.maxWidth * 0.3,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 40),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        SearchWidget(
+                          day: dayOneDate.length >= 10
+                              ? dayOneDate.substring(8, 10)
+                              : '1',
+                          temp: dayOneTemp,
+                          imagePath: dayOneIcon.isNotEmpty
+                              ? 'http://openweathermap.org/img/wn/$dayOneIcon@2x.png'
+                              : null,
+                        ),
+                        SearchWidget(
+                          day: dayTwoDate.length >= 10
+                              ? dayTwoDate.substring(8, 10)
+                              : '2',
+                          temp: dayTwoTemp,
+                          imagePath: dayTwoIcon.isNotEmpty
+                              ? 'http://openweathermap.org/img/wn/$dayTwoIcon@2x.png'
+                              : null,
+                        ),
+                        SearchWidget(
+                          day: dayThreeDate.length >= 10
+                              ? dayThreeDate.substring(8, 10)
+                              : '3',
+                          temp: dayThreeTemp,
+                          imagePath: dayThreeIcon.isNotEmpty
+                              ? 'http://openweathermap.org/img/wn/$dayThreeIcon@2x.png'
+                              : null,
+                        ),
+                        SearchWidget(
+                          day: dayFourDate.length >= 10
+                              ? dayFourDate.substring(8, 10)
+                              : '4',
+                          temp: dayFourTemp,
+                          imagePath: dayFourIcon.isNotEmpty
+                              ? 'http://openweathermap.org/img/wn/$dayFourIcon@2x.png'
+                              : null,
+                        ),
+                        SearchWidget(
+                          day: dayFiveDate.length >= 10
+                              ? dayFiveDate.substring(8, 10)
+                              : '5',
+                          temp: dayFiveTemp,
+                          imagePath: dayFiveIcon.isNotEmpty
+                              ? 'http://openweathermap.org/img/wn/$dayFiveIcon@2x.png'
+                              : null,
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    MyDailyWidget(
-                      
-                      day: dayOneDate.length >= 10
-                          ? dayOneDate.substring(8, 10)
-                          : '1',
-                      temp: dayOneTemp,
-                      imagePath: dayOneIcon.isNotEmpty
-                          ? 'http://openweathermap.org/img/wn/$dayOneIcon@2x.png'
-                          : null,
-                    ),
-                    MyDailyWidget(
-                      day: dayTwoDate.length >= 10
-                          ? dayTwoDate.substring(8, 10)
-                          : '2',
-                      temp: dayTwoTemp,
-                      imagePath: dayTwoIcon.isNotEmpty
-                          ? 'http://openweathermap.org/img/wn/$dayTwoIcon@2x.png'
-                          : null,
-                    ),
-                    MyDailyWidget(
-                      day: dayThreeDate.length >= 10
-                          ? dayThreeDate.substring(8, 10)
-                          : '3',
-                      temp: dayThreeTemp,
-                      imagePath: dayThreeIcon.isNotEmpty
-                          ? 'http://openweathermap.org/img/wn/$dayThreeIcon@2x.png'
-                          : null,
-                    ),
-                    MyDailyWidget(
-                      day: dayFourDate.length >= 10
-                          ? dayFourDate.substring(8, 10)
-                          : '4',
-                      temp: dayFourTemp,
-                      imagePath: dayFourIcon.isNotEmpty
-                          ? 'http://openweathermap.org/img/wn/$dayFourIcon@2x.png'
-                          : null,
-                    ),
-                    MyDailyWidget(
-                      day: dayFiveDate.length >= 10
-                          ? dayFiveDate.substring(8, 10)
-                          : '5',
-                      temp: dayFiveTemp,
-                      imagePath: dayFiveIcon.isNotEmpty
-                          ? 'http://openweathermap.org/img/wn/$dayFiveIcon@2x.png'
-                          : null,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

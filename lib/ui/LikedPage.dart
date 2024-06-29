@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:weather_app_project/resources/resources.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app_project/ui/common_widgets/my_cities_widget.dart';
+import 'dart:convert';
 
 class CitiesScreen extends StatefulWidget {
   const CitiesScreen({super.key});
@@ -10,7 +11,8 @@ class CitiesScreen extends StatefulWidget {
   State<CitiesScreen> createState() => _CitiesScreenState();
 }
 
-class _CitiesScreenState extends State<CitiesScreen> {
+class _CitiesScreenState extends State<CitiesScreen>
+    with WidgetsBindingObserver {
   String cityMoscow = '';
   String tempMoscow = '';
   String moscowLat = "55.751244";
@@ -45,8 +47,29 @@ class _CitiesScreenState extends State<CitiesScreen> {
 
   @override
   void initState() {
-    getData();
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    getData();
+    loadCitiesFromCache();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadCitiesFromCache();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      loadCitiesFromCache();
+    }
   }
 
   @override
@@ -115,58 +138,72 @@ class _CitiesScreenState extends State<CitiesScreen> {
               const SizedBox(
                 height: 37,
               ),
-              MyCitiesWidget(
-                cityName: cityMoscow,
-                weatherTemp: tempMoscow,
-                weatherImage: Images.dayWind,
+              GestureDetector(
+                onDoubleTap: () => removeCity('Moscow'),
+                child: MyCitiesWidget(
+                  cityName: cityMoscow,
+                  weatherTemp: tempMoscow,
+                ),
               ),
               const SizedBox(
                 height: 37,
               ),
-              MyCitiesWidget(
-                cityName: cityBerlin,
-                weatherTemp: tempBerlin,
-                weatherImage: Images.dayWind,
+              GestureDetector(
+                onDoubleTap: () => removeCity('Berlin'),
+                child: MyCitiesWidget(
+                  cityName: cityBerlin,
+                  weatherTemp: tempBerlin,
+                ),
               ),
               const SizedBox(
                 height: 37,
               ),
-              MyCitiesWidget(
-                cityName: cityBishkek,
-                weatherTemp: tempBishkek,
-                weatherImage: Images.dayWind,
+              GestureDetector(
+                onDoubleTap: () => removeCity('Bishkek'),
+                child: MyCitiesWidget(
+                  cityName: cityBishkek,
+                  weatherTemp: tempBishkek,
+                ),
               ),
               const SizedBox(
                 height: 37,
               ),
-              MyCitiesWidget(
-                cityName: cityKiev,
-                weatherTemp: tempKiev,
-                weatherImage: Images.dayWind,
+              GestureDetector(
+                onDoubleTap: () => removeCity('Kiev'),
+                child: MyCitiesWidget(
+                  cityName: cityKiev,
+                  weatherTemp: tempKiev,
+                ),
               ),
               const SizedBox(
                 height: 37,
               ),
-              MyCitiesWidget(
-                cityName: cityPotsdam,
-                weatherTemp: tempPotsdam,
-                weatherImage: Images.dayWind,
+              GestureDetector(
+                onDoubleTap: () => removeCity('Potsdam'),
+                child: MyCitiesWidget(
+                  cityName: cityPotsdam,
+                  weatherTemp: tempPotsdam,
+                ),
               ),
               const SizedBox(
                 height: 50,
               ),
-              ...citiesWeather.map((city) {
-                return Column(
-                  children: [
-                    MyCitiesWidget(
-                      cityName: city['cityName']!,
-                      weatherTemp: city['temp']!,
-                      weatherImage: Images.dayWind,
-                    ),
-                    const SizedBox(height: 37),
-                  ],
-                );
-              }).toList(),
+              ...citiesWeather.map(
+                (city) {
+                  return Column(
+                    children: [
+                      GestureDetector(
+                        onDoubleTap: () => removeCity(city['cityName']!),
+                        child: MyCitiesWidget(
+                          cityName: city['cityName']!,
+                          weatherTemp: city['temp']!,
+                        ),
+                      ),
+                      const SizedBox(height: 37),
+                    ],
+                  );
+                },
+              ).toList(),
             ],
           ),
         ),
@@ -194,6 +231,7 @@ class _CitiesScreenState extends State<CitiesScreen> {
           'cityName': cityName,
           'temp': temp,
         });
+        saveCitiesToCache();
       });
     }
   }
@@ -228,5 +266,30 @@ class _CitiesScreenState extends State<CitiesScreen> {
 
     cityPotsdam = responsePotsdam.data["name"].toString();
     tempPotsdam = responsePotsdam.data["main"]["temp"].toString();
+  }
+
+  void removeCity(String cityName) {
+    setState(() {
+      citiesWeather.removeWhere((city) => city['cityName'] == cityName);
+      saveCitiesToCache();
+    });
+  }
+
+  Future<void> saveCitiesToCache() async {
+    final prefs = await SharedPreferences.getInstance();
+    final citiesWeatherString = jsonEncode(citiesWeather);
+    await prefs.setString('citiesWeather', citiesWeatherString);
+  }
+
+  Future<void> loadCitiesFromCache() async {
+    final prefs = await SharedPreferences.getInstance();
+    final citiesWeatherString = prefs.getString('citiesWeather');
+    if (citiesWeatherString != null) {
+      setState(() {
+        citiesWeather = List<Map<String, String>>.from(
+          jsonDecode(citiesWeatherString),
+        );
+      });
+    }
   }
 }

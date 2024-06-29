@@ -40,12 +40,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
-
-    // Format the current time as "hour:minute"
     String formattedTime = DateFormat.Hm().format(now);
-
-    var screenSize = MediaQuery.of(context).size;
-    var isPortrait = screenSize.height > screenSize.width;
 
     return Scaffold(
       backgroundColor: const Color(0xff191919),
@@ -70,122 +65,125 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
-          child: Column(
-            children: [
-              Text(
-                city,
-                style: AppFonts.s32bold.copyWith(color: Colors.white),
-              ),
-              Text(
-                formattedTime,
-                style: AppFonts.s16regular.copyWith(color: Colors.white),
-              ),
-              Expanded(
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    ShaderMask(
-                      shaderCallback: (bounds) => const LinearGradient(
-                        colors: [Colors.white, Color.fromARGB(0, 0, 0, 0)],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        stops: [0.7, 1.0],
-                      ).createShader(bounds),
-                      child: Text(
-                        temp,
-                        style: TextStyle(
-                          fontSize: screenSize.width * 0.35,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'ReemKufi',
-                        ),
-                      ),
-                    ),
-                    if (image_icon.isNotEmpty)
-                      Positioned(
-                        top: screenSize.height * 0.20,
-                        child: Image.network(
-                          'http://openweathermap.org/img/wn/$image_icon@2x.png',
-                          width: screenSize.width * 0.4,
-                          height: screenSize.width * 0.4,
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  MyContainer(
-                    typeWeather: 'Wind',
-                    temp: wind.toString(),
-                    image: Images.hazzy,
-                  ),
-                  MyContainer(
-                    typeWeather: 'Visibility',
-                    temp: visibility,
-                    image: Images.stormyDay,
-                  ),
-                  MyContainer(
-                    typeWeather: 'Real feel',
-                    temp: real_feels.toString(),
-                    image: Images.sunny,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    MyDailyWidget(
-                      day: "Temp max",
-                      temp: temp_max,
-                      imagePath:
-                          '/Users/r27/StudioProjects/weather_app_project/assets/icons_svg/temp-max.svg',
-                    ),
-                    MyDailyWidget(
-                      day: "Temp min",
-                      temp: temp_min,
-                      imagePath:
-                          '/Users/r27/StudioProjects/weather_app_project/assets/icons_svg/temp-min.svg',
-                    ),
-                    MyDailyWidget(
-                      day: "Pressure",
-                      temp: pressure,
-                      imagePath:
-                          '/Users/r27/StudioProjects/weather_app_project/assets/icons_svg/pressure.svg',
-                    ),
-                    MyDailyWidget(
-                      day: "Humidity",
-                      temp: humidity,
-                      imagePath:
-                          '/Users/r27/StudioProjects/weather_app_project/assets/icons_svg/humidity.svg',
-                    ),
-                    MyDailyWidget(
-                      day: "Grnd level",
-                      temp: grnd_level,
-                      imagePath:
-                          '/Users/r27/StudioProjects/weather_app_project/assets/icons_svg/grnd-level.svg',
-                    ),
-                    MyDailyWidget(
-                      day: "Sea level",
-                      temp: sea_level,
-                      imagePath:
-                          '/Users/r27/StudioProjects/weather_app_project/assets/icons_svg/sea-level.svg',
-                    ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          var isPortrait = constraints.maxHeight > constraints.maxWidth;
+          double circleAvatarRadius = constraints.maxWidth * 0.08;
+          double bottomContainerHeight = constraints.maxHeight * 0.75;
+          double imageSize = constraints.maxWidth * 0.5;
+          double titleFontSize = constraints.maxWidth * 0.08;
+          double subtitleFontSize = constraints.maxWidth * 0.04;
 
-                    // MyDailyWidget(day: "Temp kf", temp: temp_kf),
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
+            child: Column(
+              children: [
+                Text(
+                  city,
+                  style: AppFonts.s32bold.copyWith(color: Colors.white),
+                ),
+                Text(
+                  formattedTime,
+                  style: AppFonts.s16regular.copyWith(color: Colors.white),
+                ),
+                Expanded(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      ShaderMask(
+                        shaderCallback: (bounds) => const LinearGradient(
+                          colors: [Colors.white, Color.fromARGB(0, 0, 0, 0)],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          stops: [0.7, 1.0],
+                        ).createShader(bounds),
+                        child: Text(
+                          temp,
+                          style: TextStyle(
+                            fontSize: constraints.maxWidth * 0.35,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'ReemKufi',
+                          ),
+                        ),
+                      ),
+                      if (image_icon.isNotEmpty)
+                        Positioned(
+                          top: constraints.maxHeight * 0.20,
+                          child: Image.network(
+                            'http://openweathermap.org/img/wn/$image_icon@2x.png',
+                            width: constraints.maxWidth * 0.4,
+                            height: constraints.maxWidth * 0.4,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Icon(Icons.error, color: Colors.red);
+                            },
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    MyContainer(
+                      typeWeather: 'Wind',
+                      temp: wind.toString(),
+                      image: Images.hazzy,
+                    ),
+                    MyContainer(
+                      typeWeather: 'Visibility',
+                      temp: visibility,
+                      image: Images.stormyDay,
+                    ),
+                    MyContainer(
+                      typeWeather: 'Real feel',
+                      temp: real_feels.toString(),
+                      image: Images.sunny,
+                    ),
                   ],
                 ),
-              ),
-            ],
-          ),
-        ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      MyDailyWidget(
+                        day: "Temp max",
+                        temp: temp_max,
+                        imagePath: 'assets/icons_svg/temp-max.svg',
+                      ),
+                      MyDailyWidget(
+                        day: "Temp min",
+                        temp: temp_min,
+                        imagePath: 'assets/icons_svg/temp-min.svg',
+                      ),
+                      MyDailyWidget(
+                        day: "Pressure",
+                        temp: pressure,
+                        imagePath: 'assets/icons_svg/pressure.svg',
+                      ),
+                      MyDailyWidget(
+                        day: "Humidity",
+                        temp: humidity,
+                        imagePath: 'assets/icons_svg/humidity.svg',
+                      ),
+                      MyDailyWidget(
+                        day: "Grnd level",
+                        temp: grnd_level,
+                        imagePath: 'assets/icons_svg/grnd-level.svg',
+                      ),
+                      MyDailyWidget(
+                        day: "Sea level",
+                        temp: sea_level,
+                        imagePath: 'assets/icons_svg/sea-level.svg',
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
