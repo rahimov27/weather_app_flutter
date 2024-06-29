@@ -36,6 +36,13 @@ class _CitiesScreenState extends State<CitiesScreen> {
   String potsdamlat = "52.391842";
   String potsdamlon = "13.063561";
 
+  // For adding city
+  String favoriteCity = '';
+  TextEditingController cityController = TextEditingController();
+
+  // List to store added cities' weather data
+  List<Map<String, String>> citiesWeather = [];
+
   @override
   void initState() {
     getData();
@@ -55,9 +62,46 @@ class _CitiesScreenState extends State<CitiesScreen> {
         backgroundColor: const Color(0xff191919),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Center(
+                    child: Column(
+                      children: [
+                        TextField(
+                          controller: cityController,
+                          decoration: const InputDecoration(
+                              hintText: 'Please enter city name'),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(Icons.close),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                await addCity();
+                                cityController.clear();
+                                Navigator.pop(context); // Close the dialog
+                                setState(() {});
+                              },
+                              icon: const Icon(Icons.search),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
             icon: const Icon(
-              Icons.search,
+              Icons.add,
               size: 24,
               color: Colors.white,
             ),
@@ -111,11 +155,47 @@ class _CitiesScreenState extends State<CitiesScreen> {
               const SizedBox(
                 height: 50,
               ),
+              ...citiesWeather.map((city) {
+                return Column(
+                  children: [
+                    MyCitiesWidget(
+                      cityName: city['cityName']!,
+                      weatherTemp: city['temp']!,
+                      weatherImage: Images.dayWind,
+                    ),
+                    const SizedBox(height: 37),
+                  ],
+                );
+              }).toList(),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> addCity() async {
+    final dio = Dio();
+    final response = await dio.get(
+        'https://api.openweathermap.org/geo/1.0/direct?q=${cityController.text}&limit=5&appid=e4c7d413beed7d8cc6521ae67ca4d8f0');
+    if (response.data.isNotEmpty) {
+      final cityData = response.data[0];
+      final cityName = cityData["name"];
+      final lat = cityData["lat"].toString();
+      final lon = cityData["lon"].toString();
+
+      final weatherResponse = await dio.get(
+          "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
+      final temp = weatherResponse.data["main"]["temp"].toString();
+
+      setState(() {
+        favoriteCity = cityName;
+        citiesWeather.add({
+          'cityName': cityName,
+          'temp': temp,
+        });
+      });
+    }
   }
 
   Future<void> getData() async {
