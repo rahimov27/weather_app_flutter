@@ -14,39 +14,41 @@ class MyContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.white),
-        color: const Color(0xff262626),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 27, vertical: 10),
-      constraints: const BoxConstraints(
-        minWidth: 64, 
-        maxWidth: double.infinity, 
-      ),
-      child: Column(
-        mainAxisSize:
-            MainAxisSize.min, 
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(
-            typeWeather,
-            style: AppFonts.s12regular.copyWith(color: Colors.white),
-          ),
-          Row(
-            mainAxisSize:
-                MainAxisSize.min, 
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                temp,
-                style: AppFonts.s16regular.copyWith(color: Colors.white),
-              ),
-              Image(image: AssetImage(image))
-            ],
-          ),
-        ],
+    return IntrinsicWidth(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.white),
+          color: const Color(0xff262626),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        constraints: const BoxConstraints(
+          minWidth: 64,
+          maxWidth: double.infinity,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              typeWeather,
+              style: AppFonts.s12regular.copyWith(color: Colors.white),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  temp,
+                  style: AppFonts.s16regular.copyWith(color: Colors.white),
+                ),
+                const SizedBox(
+                    width: 8), // Add some space between text and image
+                Image(image: AssetImage(image))
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
