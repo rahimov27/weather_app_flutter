@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:weather_app_project/core/app_fonts.dart';
 
 class MyContainer extends StatelessWidget {
@@ -44,7 +45,7 @@ class MyContainer extends StatelessWidget {
                 ),
                 const SizedBox(
                     width: 8), // Add some space between text and image
-                Image(image: AssetImage(image))
+                SvgPicture.asset(image)
               ],
             ),
           ],

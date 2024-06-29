@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:weather_app_project/core/app_fonts.dart';
 import 'package:weather_app_project/ui/PagesScreen.dart';
 
@@ -82,37 +83,40 @@ class SecondScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: constraints.maxHeight * 0.07),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    const PagesScreen(),
-                            transitionDuration:
-                                const Duration(milliseconds: 10),
-                            transitionsBuilder: (context, animation,
-                                secondaryAnimation, child) {
-                              const curve = Curves.easeInOut;
-                              var curveAnimation = CurvedAnimation(
-                                parent: animation,
-                                curve: curve,
-                              );
-                              return ScaleTransition(
-                                scale: curveAnimation,
-                                child: child,
-                              );
-                            },
-                          ),
-                        );
-                      },
-                      child: CircleAvatar(
-                        radius: circleAvatarRadius,
-                        backgroundColor: const Color(0xff333333),
-                        child:
-                            const Image(image: AssetImage(Images.arrowRight)),
+                    SizedBox(height: constraints.maxHeight * 0.08),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      const PagesScreen(),
+                              transitionDuration:
+                                  const Duration(milliseconds: 10),
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                const curve = Curves.easeInOut;
+                                var curveAnimation = CurvedAnimation(
+                                  parent: animation,
+                                  curve: curve,
+                                );
+                                return ScaleTransition(
+                                  scale: curveAnimation,
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: CircleAvatar(
+                          radius: circleAvatarRadius,
+                          backgroundColor: const Color(0xff333333),
+                          child:
+                              SvgPicture.asset('assets/images/arrow-right.svg'),
+                        ),
                       ),
                     ),
                   ],

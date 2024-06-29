@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:weather_app_project/core/app_fonts.dart';
 import 'package:weather_app_project/ui/welcome_pages/second_screen.dart';
 import '../../resources/resources.dart';
@@ -12,7 +13,7 @@ class FirstScreen extends StatelessWidget {
       backgroundColor: const Color(0xff292929),
       appBar: AppBar(
         backgroundColor: const Color(0xff292929),
-        elevation: 0,
+        automaticallyImplyLeading: false,
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -72,37 +73,40 @@ class FirstScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: constraints.maxHeight * 0.03),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    SecondScreen(),
-                            transitionDuration:
-                                const Duration(milliseconds: 10),
-                            transitionsBuilder: (context, animation,
-                                secondaryAnimation, child) {
-                              const curve = Curves.easeInOut;
-                              var curveAnimation = CurvedAnimation(
-                                parent: animation,
-                                curve: curve,
-                              );
-                              return ScaleTransition(
-                                scale: curveAnimation,
-                                child: child,
-                              );
-                            },
-                          ),
-                        );
-                      },
-                      child: CircleAvatar(
-                        radius: circleAvatarRadius,
-                        backgroundColor: const Color(0xff333333),
-                        child:
-                            const Image(image: AssetImage(Images.arrowRight)),
+                    SizedBox(height: constraints.maxHeight * 0.08),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      SecondScreen(),
+                              transitionDuration:
+                                  const Duration(milliseconds: 10),
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                const curve = Curves.easeInOut;
+                                var curveAnimation = CurvedAnimation(
+                                  parent: animation,
+                                  curve: curve,
+                                );
+                                return ScaleTransition(
+                                  scale: curveAnimation,
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: CircleAvatar(
+                          radius: circleAvatarRadius,
+                          backgroundColor: const Color(0xff333333),
+                          child:
+                              SvgPicture.asset('assets/images/arrow-right.svg'),
+                        ),
                       ),
                     ),
                   ],

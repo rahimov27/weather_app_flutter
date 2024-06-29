@@ -128,17 +128,17 @@ class _HomePageState extends State<HomePage> {
                     MyContainer(
                       typeWeather: 'Wind',
                       temp: wind.toString(),
-                      image: Images.hazzy,
+                      image: 'assets/images/u_cloud-wind.svg',
                     ),
                     MyContainer(
                       typeWeather: 'Visibility',
                       temp: visibility,
-                      image: Images.stormyDay,
+                      image: 'assets/images/u_cloud-lock.svg',
                     ),
                     MyContainer(
                       typeWeather: 'Real feel',
                       temp: real_feels.toString(),
-                      image: Images.sunny,
+                      image: 'assets/images/u_cloud-check.svg',
                     ),
                   ],
                 ),
