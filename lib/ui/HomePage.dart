@@ -189,51 +189,132 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> getData() async {
-    final Dio dio = Dio();
-    final currentLocation = await _determinePosition();
-    final Response response = await dio.get(
-        "https://api.openweathermap.org/data/2.5/weather?lat=${currentLocation.latitude}&lon=${currentLocation.longitude}&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
-    city = response.data["name"];
-    temp = response.data["main"]["temp"].toString();
-    wind = response.data["wind"]["speed"];
-    countryCode = response.data["sys"]["country"];
-    real_feels = response.data["main"]["feels_like"];
-    visibility = response.data["visibility"].toString();
-    feels_like = response.data['main']['feels_like'].toString();
-    temp_min = response.data['main']['temp_min'].toString();
-    temp_max = response.data['main']['temp_max'].toString();
-    pressure = response.data['main']['pressure'].toString();
-    sea_level = response.data['main']['sea_level'].toString();
-    grnd_level = response.data['main']['grnd_level'].toString();
-    humidity = response.data['main']['humidity'].toString();
-    temp_kf = response.data['main']['temp_kf'].toString();
-    image_icon = response.data['weather'][0]['icon'].toString();
+    try {
+      final Dio dio = Dio();
+      final currentLocation = await _determinePosition();
+      final Response response = await dio.get(
+          "https://api.openweathermap.org/data/2.5/weather?lat=${currentLocation.latitude}&lon=${currentLocation.longitude}&appid=e4c7d413beed7d8cc6521ae67ca4d8f0&units=metric");
+      city = response.data["name"];
+      temp = response.data["main"]["temp"].toString();
+      wind = response.data["wind"]["speed"];
+      countryCode = response.data["sys"]["country"];
+      real_feels = response.data["main"]["feels_like"];
+      visibility = response.data["visibility"].toString();
+      feels_like = response.data['main']['feels_like'].toString();
+      temp_min = response.data['main']['temp_min'].toString();
+      temp_max = response.data['main']['temp_max'].toString();
+      pressure = response.data['main']['pressure'].toString();
+      sea_level = response.data['main']['sea_level'].toString();
+      grnd_level = response.data['main']['grnd_level'].toString();
+      humidity = response.data['main']['humidity'].toString();
+      temp_kf = response.data['main']['temp_kf'].toString();
+      image_icon = response.data['weather'][0]['icon'].toString();
 
-    setState(() {});
+      setState(() {});
+    } catch (e) {
+      // Handle errors, such as network issues or location permissions denied
+      _showErrorDialog(
+          'Error', 'Failed to get weather data. Please try again.');
+    }
   }
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
+    try {
+      // Check if location services are enabled
+      serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        _showLocationDialog(
+          title: 'Location Services Disabled',
+          content: 'Please enable location services to continue.',
+          onPressed: () {
+            Geolocator.openLocationSettings();
+            Navigator.of(context).pop();
+          },
+        );
+        return Future.error('Location services are disabled.');
       }
-    }
 
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
+      // Check location permissions
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          _showLocationDialog(
+            title: 'Location Permission Denied',
+            content:
+                'Location permissions are denied. Please grant permissions to continue.',
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          );
+          return Future.error('Location permissions are denied');
+        }
+      }
 
-    return await Geolocator.getCurrentPosition();
+      if (permission == LocationPermission.deniedForever) {
+        _showLocationDialog(
+          title: 'Location Permission Denied Forever',
+          content:
+              'Location permissions are permanently denied. We cannot request permissions.',
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        );
+        return Future.error(
+            'Location permissions are permanently denied, we cannot request permissions.');
+      }
+
+      // If permissions are granted, get the current position
+      return await Geolocator.getCurrentPosition();
+    } catch (e) {
+      _showErrorDialog(
+          'Error', 'Failed to determine location. Please try again.');
+      return Future.error('Failed to determine location');
+    }
+  }
+
+  void _showLocationDialog({
+    required String title,
+    required String content,
+    required VoidCallback onPressed,
+  }) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              onPressed: onPressed,
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showErrorDialog(String title, String content) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
